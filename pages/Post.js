@@ -1,6 +1,7 @@
 import React from 'react';
 import Star from './Star';
 
+
 const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
     const discountAmount = originalPrice - Math.abs(discountedPrice);
     const discountPercentage = (discountAmount / originalPrice) * 100;
@@ -64,7 +65,7 @@ py-0 rounded-sm font-semibold '>New</h1>
 
                     </div>
                     <div className="flex justify-center items-center mt-2">
-                        <Star />
+                        <Star></Star>
                     </div>
                 </div>
             </div>

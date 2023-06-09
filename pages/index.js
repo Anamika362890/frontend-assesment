@@ -1,5 +1,6 @@
-import Post from '@/Components/post/Post';
+
 import React, { useState } from 'react';
+import Post from './Post';
 
 const Posts = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts);
