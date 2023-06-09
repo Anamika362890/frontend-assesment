@@ -1,4 +1,5 @@
 import React from 'react';
+import Star from './Star';
 
 
 const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
@@ -64,7 +65,7 @@ py-0 rounded-sm font-semibold '>New</h1>
 
                     </div>
                     <div className="flex justify-center items-center mt-2">
-
+                        <Star />
                     </div>
                 </div>
             </div>
