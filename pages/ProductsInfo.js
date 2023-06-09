@@ -43,7 +43,7 @@ const ProductsInfo = ({ post }) => {
     return (
         <div className="w-80 mx-auto">
             <div className="bg-base-100 h-[400px] overflow-hidden">
-                <figure className="border-y border-gray-100 relative">
+                <figure className="border-y border-gray-200 relative">
 
 
                     {showNew && (
