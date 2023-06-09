@@ -32,12 +32,9 @@ const index = ({ initialPosts }) => {
       <div className="flex justify-center  my-11 ">
         <button
           onClick={loadMorePosts}
-          className="btn load-more-btn px-4 py-3 mb-5 mt-2 rounded text-white font-bold text-lg"
+          className="btn load-more-btn px-4 py-3 mb-5 mt-2 rounded text-white font-bold text-lg sm:w-1/2 lg:w-1/3"
           style={{
             backgroundColor: 'rgb(0, 168, 138)',
-            margin: '0 auto',
-            display: 'block',
-            width: '30%',
           }}
         >
           Load More
