@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import Post from './Post';
 
-const Posts = ({ initialPosts }) => {
+import ProductsInfo from './ProductsInfo';
+
+const index = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts);
 
   const loadMorePosts = async () => {
@@ -24,7 +25,7 @@ const Posts = ({ initialPosts }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {posts.map((post) => (
           <div key={post.id} className="w-full  flex justify-center">
-            <Post post={post} />
+            <ProductsInfo post={post} />
           </div>
         ))}
       </div>
@@ -46,7 +47,7 @@ const Posts = ({ initialPosts }) => {
   );
 };
 
-export default Posts;
+export default index;
 
 export const getStaticProps = async () => {
   try {

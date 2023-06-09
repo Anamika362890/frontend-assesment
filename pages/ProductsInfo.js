@@ -8,7 +8,7 @@ const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
     return discountPercentage.toFixed(0);
 };
 
-const Post = ({ post }) => {
+const ProductsInfo = ({ post }) => {
     const discountPercentage = calculateDiscountPercentage(
         post.variations[0].price.mrp,
         post.variations[0].price.discountedPrice
@@ -73,4 +73,4 @@ py-0 rounded-sm font-semibold '>New</h1>
     );
 };
 
-export default Post;
+export default ProductsInfo;
