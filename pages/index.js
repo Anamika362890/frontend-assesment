@@ -1,13 +1,15 @@
-
 import React, { useState } from 'react';
 
 import ProductsInfo from './ProductsInfo';
 
-const index = ({ initialPosts }) => {
+const Index = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadMorePosts = async () => {
     try {
+      setIsLoading(true);
+
       const response = await fetch(
         `https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=${posts.length / 10}&limit=10&type=Q_COMMERCE`
       );
@@ -16,11 +18,13 @@ const index = ({ initialPosts }) => {
       setPosts((prevPosts) => [...prevPosts, ...data.products]);
     } catch (error) {
       console.error('Error loading more posts:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto px-24 ">
+    <div className="container mx-auto px-24">
       <h1 className="text-3xl my-4 pt-1 pb-4 text-[##444] font-bold">Products</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {posts.map((post) => (
@@ -36,15 +40,16 @@ const index = ({ initialPosts }) => {
           style={{
             backgroundColor: 'rgb(0, 168, 138)',
           }}
+          disabled={isLoading}
         >
-          Load More
+          {isLoading ? 'Loading...' : 'Load More'}
         </button>
       </div>
     </div>
   );
 };
 
-export default index;
+export default Index;
 
 export const getStaticProps = async () => {
   try {
