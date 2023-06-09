@@ -9,6 +9,37 @@ const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
 };
 
 const ProductsInfo = ({ post }) => {
+
+    if (!post || !post.variations || post.variations.length === 0) {
+        // Handle the case where post or variations are undefined or empty
+        return null; // or render an error message, loading state, or fallback content
+    }
+
+    // Rest of your component code...
+
+    // Access post.variations[0] safely
+    const variation = post.variations[0];
+
+    // Check if the necessary properties are defined
+    if (!variation || !variation.price) {
+        // Handle the case where variation or price is undefined
+        return null; // or render an error message, loading state, or fallback content
+    }
+
+    // Access variation.price properties safely
+    const originalPrice = variation.price.mrp;
+    const discountedPrice = variation.price.discountedPrice;
+
+    // Rest of your component code...
+
+    // Ensure that the necessary properties are defined before using them
+    // ...
+
+
+
+
+
+
     const discountPercentage = calculateDiscountPercentage(
         post.variations[0].price.mrp,
         post.variations[0].price.discountedPrice
