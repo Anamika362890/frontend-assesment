@@ -1,7 +1,6 @@
 import React from 'react';
 import Star from './Star';
 
-
 const calculateDiscountPercentage = (originalPrice, discountedPrice) => {
     const discountAmount = originalPrice - Math.abs(discountedPrice);
     const discountPercentage = (discountAmount / originalPrice) * 100;
