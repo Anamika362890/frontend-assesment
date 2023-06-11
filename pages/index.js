@@ -12,7 +12,7 @@ const Index = ({ initialPosts }) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=${page}&limit=10&type=Q_COMMERCE`
+        `https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=${page}&limit=30&type=Q_COMMERCE`
       );
       const data = await response.json();
 
