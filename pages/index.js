@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ProductsInfo from './ProductsInfo';
 
 const Index = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
 
   const loadMorePosts = async () => {
     try {
@@ -16,12 +17,28 @@ const Index = ({ initialPosts }) => {
       const data = await response.json();
 
       setPosts((prevPosts) => [...prevPosts, ...data.products]);
+      setPage((prevPage) => prevPage + 1);
     } catch (error) {
       console.error('Error loading more posts:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading) {
+      loadMorePosts();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <div className="container mx-auto px-24">
@@ -34,7 +51,7 @@ const Index = ({ initialPosts }) => {
         ))}
       </div>
       <div className="flex justify-center  my-11 ">
-        <button
+        {/* <button
           onClick={loadMorePosts}
           className="btn load-more-btn px-4 py-3 mb-5 mt-2 rounded text-white font-bold text-lg sm:w-1/2 lg:w-1/3"
           style={{
@@ -43,8 +60,13 @@ const Index = ({ initialPosts }) => {
           disabled={isLoading}
         >
           {isLoading ? 'Loading...' : 'Load More'}
-        </button>
+        </button> */}
       </div>
+      {isLoading && <div className="flex justify-center my-11">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-green-500"></div>
+
+      </div>
+      }
     </div>
   );
 };

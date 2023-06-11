@@ -82,7 +82,6 @@ py-0 rounded-sm font-semibold '>New</h1>
 
 
 
-
                     </div>
                     <div className="flex justify-center items-center mt-2">
                         <Star></Star>
