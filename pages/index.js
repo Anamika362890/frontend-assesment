@@ -1,23 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ProductsInfo from './ProductsInfo';
 
 const Index = ({ initialPosts }) => {
   const [posts, setPosts] = useState(initialPosts);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const loadMorePosts = async () => {
     try {
       setIsLoading(true);
-
       const response = await fetch(
-        `https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=${posts.length / 10}&limit=10&type=Q_COMMERCE`
+        `https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=${page}&limit=10&type=Q_COMMERCE`
       );
       const data = await response.json();
 
-      setPosts((prevPosts) => [...prevPosts, ...data.products]);
-      setPage((prevPage) => prevPage + 1);
+      if (data.products.length === 0) {
+        setHasMore(false);
+      } else {
+        setPosts((prevPosts) => [...prevPosts, ...data.products]);
+        setPage(page + 1);
+      }
     } catch (error) {
       console.error('Error loading more posts:', error);
     } finally {
@@ -25,20 +29,20 @@ const Index = ({ initialPosts }) => {
     }
   };
 
-
-  const handleScroll = () => {
-    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-    if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading) {
-      loadMorePosts();
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10 &&
+        !isLoading &&
+        hasMore
+      ) {
+        loadMorePosts();
+      }
     };
-  }, []);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isLoading, hasMore]);
 
   return (
     <div className="container mx-auto px-24">
@@ -49,18 +53,6 @@ const Index = ({ initialPosts }) => {
             <ProductsInfo post={post} />
           </div>
         ))}
-      </div>
-      <div className="flex justify-center  my-11 ">
-        {/* <button
-          onClick={loadMorePosts}
-          className="btn load-more-btn px-4 py-3 mb-5 mt-2 rounded text-white font-bold text-lg sm:w-1/2 lg:w-1/3"
-          style={{
-            backgroundColor: 'rgb(0, 168, 138)',
-          }}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Loading...' : 'Load More'}
-        </button> */}
       </div>
       {isLoading && <div className="flex justify-center my-11">
         <div className="animate-spin rounded-full h-10 w-10 border-t-4 border-b-4 border-green-500"></div>
@@ -75,7 +67,9 @@ export default Index;
 
 export const getStaticProps = async () => {
   try {
-    const response = await fetch('https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=0&limit=10&type=Q_COMMERCE');
+    const response = await fetch(
+      'https://staging-catalog-reader.qcoom.com/api/v1/product/v2?page=0&limit=10&type=Q_COMMERCE'
+    );
     const data = await response.json();
 
     return {
@@ -92,3 +86,14 @@ export const getStaticProps = async () => {
     };
   }
 };
+
+
+
+
+
+
+
+
+
+
+
